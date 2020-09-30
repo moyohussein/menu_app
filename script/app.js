@@ -31,43 +31,31 @@ function create(element) {
     return document.createElement(element);
 };
 function createArticle (menuItem) {
-    const article = create('article');
-    article.classList.add(menuItem['category']);
-    const header = create('header');
-    const h2 = create('h2');
-    h2.textContent = `${menuItem['title']}`;
-    const h3 = create('h3');
-    h3.textContent = `$ ${menuItem['price']}`;
-    const myFig = create('figure');
-    myFig.classList.add('fig');
-    const image = create('img');
-    image.src = `${menuItem['img']}`
-    const para = create('p');
-    para.textContent = `${menuItem['desc']}`;
-    article.appendChild(header);
-    header.appendChild(h2);
-    myFig.appendChild(h3);    
-    article.appendChild(para);
-    myFig.appendChild(image);
-    article.appendChild(myFig);
-    section.appendChild(article);
+    section.innerHTML += 
+    `<article class=${menuItem['category']}>
+    <header>
+    <h2>${menuItem['title']}</h2>
+    </header>
+    <p>${menuItem['desc']}</p>
+    <figure class='fig'>
+    <h3>${menuItem['price']}</h3>
+    <img src='${menuItem['img']}'>
+    </figure>
+    </article>`
 };
 
 //creates and returns a button element
 function createButton(item) {
-    const buttonElem = document.createElement('input');
-    buttonElem.type = 'button';
-    buttonElem.value = `${item}`;
-    return buttonElem;
+    return `<input type='button' value=${item}>`;
 }
 
 function createArticleBtns (elem) {
   const menuButtons = ["all", ...new Set(elem.map(item => item['category']))];
   
-  menuButtons.forEach(item => {
+  menuButtons.forEach((item, i) => {
     const button = createButton(item);
-    button.value === 'all' ? button.classList.add('active') : '';
-    menu.appendChild(button);
+    menu.innerHTML += button;
+    menu.children[i].value === 'all' ? menu.children[i].classList.add('active') : '';
 
     //add an event listener to the button container 
     menu.addEventListener('click', (e) => {
